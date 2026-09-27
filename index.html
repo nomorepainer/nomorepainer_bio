@@ -19,10 +19,6 @@
     --accent3: #2fd6ff;
   }
 
-  html, body {
-    -webkit-tap-highlight-color: transparent;
-  }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -118,7 +114,6 @@
     cursor: pointer;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
     font-family: inherit;
-    -webkit-tap-highlight-color: transparent;
   }
 
   .continue-btn:hover {
@@ -239,10 +234,9 @@
   a.link:active, button.link:active,
   a.link:focus, button.link:focus {
     outline: none;
-    transform: none;
   }
 
-  .ripple {
+  .ripple-el {
     position: absolute;
     border-radius: 50%;
     background: radial-gradient(circle,
@@ -293,6 +287,8 @@
     color: var(--muted);
     transition: transform 0.3s ease;
     margin-left: auto;
+    position: relative;
+    z-index: 1;
   }
 
   .crypto-toggle.open .crypto-arrow {
@@ -335,10 +331,6 @@
   .crypto-item:hover {
     border-color: rgba(61,123,255,0.5);
     background: #0a0e1a;
-  }
-
-  .crypto-item:active {
-    transform: none;
   }
 
   .crypto-item .link-icon {
@@ -395,7 +387,6 @@
     text-decoration: none;
     font-size: 14px;
     transition: color 0.25s ease;
-    -webkit-tap-highlight-color: transparent;
   }
 
   .email-footer a:hover { color: var(--accent3); }
@@ -640,11 +631,13 @@
       var y = event.clientY - rect.top - size / 2;
 
       var ripple = document.createElement('span');
-      ripple.className = 'ripple';
+      ripple.className = 'ripple-el';
       ripple.style.width = size + 'px';
       ripple.style.height = size + 'px';
       ripple.style.left = x + 'px';
       ripple.style.top = y + 'px';
+      ripple.style.position = 'absolute';
+      ripple.style.borderRadius = '50%';
 
       element.appendChild(ripple);
 
