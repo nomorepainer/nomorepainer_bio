@@ -190,6 +190,41 @@
     padding: 40px 32px;
   }
 
+  .avatar-wrapper, h1, a.link, button.link, .email-footer {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .card.animate-in .avatar-wrapper,
+  .card.animate-in h1,
+  .card.animate-in a.link,
+  .card.animate-in button.link,
+  .card.animate-in .email-footer {
+    animation: itemAppear 0.5s ease forwards;
+  }
+
+  .card.animate-in .avatar-wrapper { animation-delay: 0s; }
+  .card.animate-in h1 { animation-delay: 0.08s; }
+  .card.animate-in .links > *:nth-child(1) { animation-delay: 0.15s; }
+  .card.animate-in .links > *:nth-child(2) { animation-delay: 0.20s; }
+  .card.animate-in .links > *:nth-child(3) { animation-delay: 0.25s; }
+  .card.animate-in .links > *:nth-child(4) { animation-delay: 0.30s; }
+  .card.animate-in .links > *:nth-child(5) { animation-delay: 0.35s; }
+  .card.animate-in .links > *:nth-child(6) { animation-delay: 0.40s; }
+  .card.animate-in .links > *:nth-child(7) { animation-delay: 0.45s; }
+  .card.animate-in .links > *:nth-child(8) { animation-delay: 0.50s; }
+  .card.animate-in .links > *:nth-child(9) { animation-delay: 0.55s; }
+  .card.animate-in .links > *:nth-child(10) { animation-delay: 0.60s; }
+  .card.animate-in .links > *:nth-child(11) { animation-delay: 0.65s; }
+  .card.animate-in .email-footer { animation-delay: 0.70s; }
+
+  @keyframes itemAppear {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .avatar-wrapper {
     width: 84px;
     height: 84px;
@@ -685,22 +720,24 @@
 
       document.documentElement.lang = l;
 
-      var aboutMenu = document.getElementById('aboutMenu');
-      var cryptoMenu = document.getElementById('cryptoMenu');
-      if (aboutMenu.classList.contains('open')) {
-        aboutMenu.style.maxHeight = (aboutMenu.scrollHeight + 2) + 'px';
+      var aboutMenuEl = document.getElementById('aboutMenu');
+      var cryptoMenuEl = document.getElementById('cryptoMenu');
+      if (aboutMenuEl.classList.contains('open')) {
+        aboutMenuEl.style.maxHeight = (aboutMenuEl.scrollHeight + 2) + 'px';
       }
-      if (cryptoMenu.classList.contains('open')) {
-        cryptoMenu.style.maxHeight = (cryptoMenu.scrollHeight + 2) + 'px';
+      if (cryptoMenuEl.classList.contains('open')) {
+        cryptoMenuEl.style.maxHeight = (cryptoMenuEl.scrollHeight + 2) + 'px';
       }
     }
 
     function enterSite() {
       var welcome = document.getElementById('welcome');
       welcome.classList.add('hide');
+
       setTimeout(function() {
         welcome.style.display = 'none';
-      }, 1500);
+        document.getElementById('card').classList.add('animate-in');
+      }, 800);
     }
 
     var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
