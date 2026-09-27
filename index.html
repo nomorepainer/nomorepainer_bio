@@ -363,26 +363,6 @@
     z-index: 1;
   }
 
-  a.link:hover .link-icon,
-  button.link:hover .link-icon {
-    animation: iconPop 0.4s ease forwards;
-  }
-
-  a.link:not(:hover) .link-icon,
-  button.link:not(:hover) .link-icon {
-    animation: iconReturn 0.3s ease forwards;
-  }
-
-  @keyframes iconPop {
-    from { transform: scale(1); }
-    to   { transform: scale(1.15); }
-  }
-
-  @keyframes iconReturn {
-    from { transform: scale(1.15); }
-    to   { transform: scale(1); }
-  }
-
   a.link > span, button.link > span,
   a.link > div, button.link > div {
     position: relative;
