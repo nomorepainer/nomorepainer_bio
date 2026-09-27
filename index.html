@@ -19,6 +19,10 @@
     --accent3: #2fd6ff;
   }
 
+  html, body {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -38,16 +42,34 @@
     height: 200px;
     border-radius: 50%;
     background: radial-gradient(circle,
-      rgba(61,123,255,0.50) 0%,
-      rgba(106,92,255,0.28) 30%,
-      rgba(47,214,255,0.12) 55%,
+      rgba(61,123,255,0.65) 0%,
+      rgba(106,92,255,0.40) 30%,
+      rgba(47,214,255,0.18) 55%,
       transparent 85%);
     pointer-events: none;
     transform: translate(-50%, -50%);
-    z-index: 0;
+    z-index: 10000;
     transition: opacity 0.3s ease;
     opacity: 0;
-    filter: blur(24px);
+    filter: blur(28px);
+    mix-blend-mode: screen;
+  }
+
+  .trail-dot {
+    position: fixed;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(61,123,255,1) 0%,
+      rgba(106,92,255,0.6) 50%,
+      transparent 100%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 10001;
+    filter: blur(3px);
+    mix-blend-mode: screen;
+    transition: opacity 0.7s ease, transform 0.7s ease;
   }
 
   .welcome {
@@ -94,31 +116,25 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
     font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .continue-btn:hover {
     border-color: rgba(61,123,255,0.6);
-    transform: translateY(-2px);
     box-shadow: 0 0 28px rgba(61,123,255,0.35);
   }
 
   .card {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     max-width: 520px;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 40px 32px;
-    animation: fadeIn 0.8s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
   }
 
   .avatar-wrapper {
@@ -203,20 +219,47 @@
     color: var(--text);
     text-decoration: none;
     font-size: 15px;
-    transition: all 0.25s ease;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
-    overflow: hidden;
     cursor: pointer;
     font-family: inherit;
     width: 100%;
     text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    overflow: hidden;
   }
 
   a.link:hover, button.link:hover {
     border-color: rgba(61,123,255,0.5);
     background: #0a0e1a;
-    transform: translateX(4px);
     box-shadow: 0 0 20px rgba(61,123,255,0.2);
+  }
+
+  a.link:active, button.link:active,
+  a.link:focus, button.link:focus {
+    outline: none;
+    transform: none;
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(61,123,255,0.7) 0%,
+      rgba(106,92,255,0.4) 40%,
+      transparent 70%);
+    transform: scale(0);
+    animation: rippleAnim 0.7s ease-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes rippleAnim {
+    to {
+      transform: scale(2.5);
+      opacity: 0;
+    }
   }
 
   .link-icon {
@@ -225,6 +268,20 @@
     object-fit: contain;
     flex-shrink: 0;
     display: block;
+    transition: transform 0.25s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  a.link:hover .link-icon,
+  button.link:hover .link-icon {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  a.link > span, button.link > span,
+  a.link > div, button.link > div {
+    position: relative;
+    z-index: 1;
   }
 
   .crypto-toggle {
@@ -266,7 +323,11 @@
     border-radius: 12px;
     margin-bottom: 8px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: background 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 
   .crypto-item:last-child { margin-bottom: 0; }
@@ -274,6 +335,10 @@
   .crypto-item:hover {
     border-color: rgba(61,123,255,0.5);
     background: #0a0e1a;
+  }
+
+  .crypto-item:active {
+    transform: none;
   }
 
   .crypto-item .link-icon {
@@ -287,6 +352,8 @@
     gap: 3px;
     flex: 1;
     min-width: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .crypto-name {
@@ -309,6 +376,8 @@
     color: var(--muted);
     opacity: 0.5;
     flex-shrink: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .email-footer {
@@ -326,6 +395,7 @@
     text-decoration: none;
     font-size: 14px;
     transition: color 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .email-footer a:hover { color: var(--accent3); }
@@ -356,7 +426,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1000;
+    z-index: 10002;
     font-family: monospace;
   }
 
@@ -374,7 +444,7 @@
     .continue-btn { padding: 12px 32px; }
     .email-footer a { font-size: 13px; }
     .email-footer img { width: 16px; height: 16px; }
-    .spotlight { display: none; }
+    .spotlight, .trail-dot { display: none; }
     .crypto-item { padding: 12px 14px; gap: 12px; }
     .crypto-address { font-size: 10px; }
   }
@@ -389,7 +459,7 @@
     <button class="continue-btn" onclick="enterSite()">Перейти на страницу</button>
   </div>
 
-  <div class="card">
+  <div class="card" id="card">
 
     <div class="avatar-wrapper">
       <div class="avatar">
@@ -403,38 +473,38 @@
       <a class="link" href="https://t.me/nomorepainer228"
          data-app="tg://resolve?domain=nomorepainer228"
          target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/Telegram.png" alt=""> Telegram
+        <img class="link-icon" src="socials/Telegram.png" alt=""> <span>Telegram</span>
       </a>
       <a class="link" href="https://github.com/nomorepainer" target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/Github.png" alt=""> GitHub
+        <img class="link-icon" src="socials/Github.png" alt=""> <span>GitHub</span>
       </a>
       <a class="link" href="https://x.com/nomorepainer" target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/X.png" alt=""> X (Twitter)
+        <img class="link-icon" src="socials/X.png" alt=""> <span>X (Twitter)</span>
       </a>
       <a class="link" href="https://instagram.com/nomorepainer"
          data-app="instagram://user?username=nomorepainer"
          target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/Instagram.png" alt=""> Instagram
+        <img class="link-icon" src="socials/Instagram.png" alt=""> <span>Instagram</span>
       </a>
       <a class="link" href="https://tiktok.com/@nomorepainer"
          data-app="snssdk1233://user/profile/nomorepainer"
          target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/TikTok.png" alt=""> TikTok
+        <img class="link-icon" src="socials/TikTok.png" alt=""> <span>TikTok</span>
       </a>
       <a class="link" href="https://youtube.com/@nomorepainer228" target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/YouTube.png" alt=""> YouTube
+        <img class="link-icon" src="socials/YouTube.png" alt=""> <span>YouTube</span>
       </a>
       <a class="link" href="https://discord.com/users/1520081730764148798"
          data-app="discord://-/users/1520081730764148798"
          target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/Discord.png" alt=""> Discord
+        <img class="link-icon" src="socials/Discord.png" alt=""> <span>Discord</span>
       </a>
       <a class="link" href="https://steamcommunity.com/id/nomorepainer" target="_blank" rel="noopener">
-        <img class="link-icon" src="socials/Steam.png" alt=""> Steam
+        <img class="link-icon" src="socials/Steam.png" alt=""> <span>Steam</span>
       </a>
 
       <button class="link crypto-toggle" id="cryptoToggle" onclick="toggleCrypto()">
-        <img class="link-icon" src="socials/Gram.png" alt=""> Crypto Wallet
+        <img class="link-icon" src="socials/Gram.png" alt=""> <span>Crypto Wallet</span>
         <span class="crypto-arrow">▼</span>
       </button>
 
@@ -500,26 +570,96 @@
 
     if (!isMobile) {
       var spotlight = document.getElementById('spotlight');
-      var mouseX = 0, mouseY = 0, spotX = 0, spotY = 0;
+      var mouseX = window.innerWidth / 2;
+      var mouseY = window.innerHeight / 2;
+      var spotX = mouseX;
+      var spotY = mouseY;
+      var lastTrailX = mouseX;
+      var lastTrailY = mouseY;
+      var trailDistance = 14;
+      var maxDots = 30;
 
       document.addEventListener('mousemove', function(e) {
         mouseX = e.clientX;
         mouseY = e.clientY;
         spotlight.style.opacity = '1';
+
+        var dx = mouseX - lastTrailX;
+        var dy = mouseY - lastTrailY;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist > trailDistance) {
+          createTrailDot(mouseX, mouseY);
+          lastTrailX = mouseX;
+          lastTrailY = mouseY;
+        }
       });
 
       document.addEventListener('mouseleave', function() {
         spotlight.style.opacity = '0';
       });
 
+      function createTrailDot(x, y) {
+        var dots = document.querySelectorAll('.trail-dot');
+        if (dots.length >= maxDots) {
+          dots[0].remove();
+        }
+
+        var dot = document.createElement('div');
+        dot.className = 'trail-dot';
+        dot.style.left = x + 'px';
+        dot.style.top = y + 'px';
+        document.body.appendChild(dot);
+
+        requestAnimationFrame(function() {
+          dot.style.opacity = '0';
+          dot.style.transform = 'translate(-50%, -50%) scale(0.2)';
+        });
+
+        setTimeout(function() {
+          if (dot.parentNode) {
+            dot.remove();
+          }
+        }, 800);
+      }
+
       function animateSpotlight() {
-        spotX += (mouseX - spotX) * 0.15;
-        spotY += (mouseY - spotY) * 0.15;
+        spotX += (mouseX - spotX) * 0.18;
+        spotY += (mouseY - spotY) * 0.18;
         spotlight.style.left = spotX + 'px';
         spotlight.style.top = spotY + 'px';
         requestAnimationFrame(animateSpotlight);
       }
       animateSpotlight();
+    }
+
+    function createRipple(element, event) {
+      var rect = element.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height) * 1.5;
+      var x = event.clientX - rect.left - size / 2;
+      var y = event.clientY - rect.top - size / 2;
+
+      var ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = size + 'px';
+      ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+
+      element.appendChild(ripple);
+
+      setTimeout(function() {
+        if (ripple.parentNode) {
+          ripple.remove();
+        }
+      }, 700);
+    }
+
+    var clickables = document.querySelectorAll('a.link, button.link, .crypto-item');
+    for (var j = 0; j < clickables.length; j++) {
+      clickables[j].addEventListener('pointerdown', function(e) {
+        createRipple(this, e);
+      });
     }
 
     function toggleCrypto() {
@@ -555,4 +695,4 @@
     }
   </script>
 </body>
-                                            </html>
+</html>
