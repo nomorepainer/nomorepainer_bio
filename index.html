@@ -359,14 +359,28 @@
     object-fit: contain;
     flex-shrink: 0;
     display: block;
-    transition: transform 0.25s ease;
     position: relative;
     z-index: 1;
   }
 
   a.link:hover .link-icon,
   button.link:hover .link-icon {
-    transform: scale(1.15);
+    animation: iconPop 0.4s ease forwards;
+  }
+
+  a.link:not(:hover) .link-icon,
+  button.link:not(:hover) .link-icon {
+    animation: iconReturn 0.3s ease forwards;
+  }
+
+  @keyframes iconPop {
+    from { transform: scale(1); }
+    to   { transform: scale(1.15); }
+  }
+
+  @keyframes iconReturn {
+    from { transform: scale(1.15); }
+    to   { transform: scale(1); }
   }
 
   a.link > span, button.link > span,
